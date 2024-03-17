@@ -6,6 +6,8 @@ import com.example.jwtspringboot.repositories.UserRepository;
 import com.example.jwtspringboot.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +34,9 @@ public class HomeController {
                 .password("123")
                 .build());
     }
-
-//    @GetMapping("/test")
-//    public String test(){
-//        return userRepository.findUserByUsername("thinhtran383").get().getAuthorities().toString();
-//    }
+    @PreAuthorize("hasAuthority('ROLE_STAFF')")
+    @GetMapping("/hello")
+    public String sayHello(){
+        return "Hello from spring";
+    }
 }
