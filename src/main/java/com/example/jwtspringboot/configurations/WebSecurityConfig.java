@@ -35,7 +35,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-
+        http.cors(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/api/v1/auth/login").permitAll();
             request.requestMatchers("/api/v1/home").hasAnyAuthority("Role_ADMIN")
