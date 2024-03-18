@@ -17,7 +17,7 @@ import java.util.HashSet;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/home")
+@RequestMapping("${api.prefix}/home")
 public class HomeController {
     @Autowired
     private final UserService userService;
@@ -27,12 +27,7 @@ public class HomeController {
 
     @GetMapping
     public String hello(@RequestBody String token) {
-
-        return jwtUtils.generateToken(User.builder()
-                .username("thinhtran383")
-                .userRoles(new HashSet<>())
-                .password("123")
-                .build());
+        return "Hello with ROLE_ADMIN";
     }
     @PreAuthorize("hasAuthority('ROLE_STAFF')")
     @GetMapping("/hello")

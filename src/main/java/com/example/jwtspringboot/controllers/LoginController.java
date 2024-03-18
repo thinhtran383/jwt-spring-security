@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashSet;
 
 @RestController
-@RequestMapping("/api/v1/auth/")
+@RequestMapping("${api.prefix}/auth/")
 @RequiredArgsConstructor
 public class LoginController {
     private final JwtUtils jwtUtils;

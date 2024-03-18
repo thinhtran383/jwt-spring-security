@@ -42,14 +42,19 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (request.getServletPath().contains("/v3/api-docs") || request.getServletPath().contains("/swagger-ui")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             System.out.println("run");
             String token = authorizationHeader.substring(7);
             String username = jwtUtils.extractUsername(token);
-            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            Arrays.stream(jwtUtils.extractClaims(token).asArray(String.class)).forEach(role ->{
-                authorities.add(new SimpleGrantedAuthority(role));
-            });
+//            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//            Arrays.stream(jwtUtils.extractClaims(token).asArray(String.class)).forEach(role ->{
+//                authorities.add(new SimpleGrantedAuthority(role));
+//            });
 
             if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 User user = (User) userDetailsService.loadUserByUsername(username);
