@@ -37,7 +37,7 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
 
-        http.authorizeHttpRequests(request -> request.requestMatchers("${api.prefix}/auth/**", "/v3/api-docs/**", "/swagger-ui/**").permitAll());
+        http.authorizeHttpRequests(request -> request.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll());
 
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/api/v1/auth/login").permitAll();
