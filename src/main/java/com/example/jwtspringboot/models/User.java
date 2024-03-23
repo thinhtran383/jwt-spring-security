@@ -2,6 +2,7 @@ package com.example.jwtspringboot.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "Users", schema = "jwt_security")
 @AllArgsConstructor
+@Transactional
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

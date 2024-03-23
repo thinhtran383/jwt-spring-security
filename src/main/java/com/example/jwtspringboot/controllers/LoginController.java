@@ -2,8 +2,8 @@ package com.example.jwtspringboot.controllers;
 
 import com.example.jwtspringboot.components.JwtUtils;
 import com.example.jwtspringboot.models.User;
-import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,11 +15,13 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("${api.prefix}/auth/")
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
     private final JwtUtils jwtUtils;
+
     @PostMapping("/login")
-    ResponseEntity<String> login(@RequestBody User user){
-        System.out.println(user.getUsername());
+    ResponseEntity<String> login(@RequestBody User user) {
+        log.info("login: " + user);
         User loginUser = User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())

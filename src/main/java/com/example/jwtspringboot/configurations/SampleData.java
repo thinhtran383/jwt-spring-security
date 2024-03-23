@@ -19,7 +19,7 @@ public class SampleData {
         return args -> {
 //            userService.addRole("ADMIN");
 //            userService.addRole("STAFF");
-//
+
 //            userService.addUser("thinhtran383","123","ADMIN");
 //            userService.addUser("vanhlu383","123","STAFF");
         };
