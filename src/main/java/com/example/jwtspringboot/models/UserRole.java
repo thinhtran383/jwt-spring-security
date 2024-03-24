@@ -1,9 +1,7 @@
 package com.example.jwtspringboot.models;
 
 import jakarta.persistence.*;
-
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Setter
@@ -18,11 +16,11 @@ public class UserRole {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roleId")
     private Role role;
 

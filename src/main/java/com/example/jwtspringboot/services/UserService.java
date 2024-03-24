@@ -7,6 +7,8 @@ import com.example.jwtspringboot.repositories.RoleRepository;
 import com.example.jwtspringboot.repositories.UserRepository;
 import com.example.jwtspringboot.repositories.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +46,9 @@ public class UserService {
         roleRepository.save(Role.builder()
                 .roleName(roleName)
                 .build());
+    }
+
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
