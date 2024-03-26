@@ -38,6 +38,7 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/api/v1/auth/login").permitAll();
+//            request.requestMatchers();
             request.requestMatchers("/api/v1/home/**").permitAll();
 
 //            request.requestMatchers("/api/v1/home").hasAnyAuthority("ROLE_ADMIN")

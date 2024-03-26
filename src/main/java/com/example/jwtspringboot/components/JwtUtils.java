@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.jwtspringboot.models.User;
 import com.example.jwtspringboot.repositories.UserRepository;
-
+import com.example.jwtspringboot.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +28,12 @@ public class JwtUtils {
     @Value("${jwt.secretKey}")
     private String secretKey;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public String generateToken(User user) {
 
         User foundUser = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Cannot found username: " + user.getUsername()));
+
 
         List<String> roles = foundUser.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -40,7 +42,7 @@ public class JwtUtils {
         String token = JWT.create()
                 .withSubject(foundUser.getUsername())
                 .withClaim("roles", roles)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 50*60 * 1000L))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 50 * 60 * 1000L))
                 .sign(Algorithm.HMAC256(secretKey.getBytes()));
 
         log.info("username by token: " + extractUsername(token));
@@ -48,7 +50,7 @@ public class JwtUtils {
         return token;
     }
 
-    public String extractUsername(String token){
+    public String extractUsername(String token) {
         DecodedJWT decodedJWT = getDecodedJWT(token);
 
         return decodedJWT.getSubject();
@@ -60,7 +62,7 @@ public class JwtUtils {
         return jwtVerifier.verify(token);
     }
 
-    public Claim extractClaims(String token){
+    public Claim extractClaims(String token) {
         DecodedJWT decodedJWT = getDecodedJWT(token);
         return decodedJWT.getClaim("roles");
     }

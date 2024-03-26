@@ -13,10 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -50,5 +52,22 @@ public class UserService {
 
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public boolean updateUserPassword(String username, String newPassword) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validateUser(String username, String password) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        return user.filter(value -> passwordEncoder.matches(password, value.getPassword())).isPresent();
     }
 }

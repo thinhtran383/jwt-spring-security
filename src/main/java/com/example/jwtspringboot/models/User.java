@@ -8,12 +8,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "Users", schema = "jwt_security")
@@ -37,19 +40,19 @@ public class User implements UserDetails {
     private Set<UserRole> userRoles = new HashSet<>();
 
 
-
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
     @Override
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getUserRoles().stream().map(userRole -> new SimpleGrantedAuthority("ROLE_"+ userRole.getRole().getRoleName())).collect(Collectors.toList());
+        return getUserRoles().stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getRoleName())).collect(Collectors.toList());
     }
 
     @Override

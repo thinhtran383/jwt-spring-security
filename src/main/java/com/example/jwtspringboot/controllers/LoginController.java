@@ -2,6 +2,7 @@ package com.example.jwtspringboot.controllers;
 
 import com.example.jwtspringboot.components.JwtUtils;
 import com.example.jwtspringboot.models.User;
+import com.example.jwtspringboot.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
+    
     private final JwtUtils jwtUtils;
+    private final UserService userService;
 
     @PostMapping("/login")
     ResponseEntity<String> login(@RequestBody User user) {
@@ -27,6 +30,9 @@ public class LoginController {
                 .password(user.getPassword())
                 .userRoles(new HashSet<>())
                 .build();
-        return ResponseEntity.ok(jwtUtils.generateToken(loginUser));
+        if (userService.validateUser(user.getUsername(), user.getPassword())) {
+            return ResponseEntity.ok(jwtUtils.generateToken(loginUser));
+        }
+        return ResponseEntity.badRequest().body("User wrong");
     }
 }
