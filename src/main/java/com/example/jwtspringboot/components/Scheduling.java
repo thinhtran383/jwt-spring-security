@@ -1,34 +1,35 @@
 package com.example.jwtspringboot.components;
 
+import com.example.jwtspringboot.dtos.MailStructure;
+import com.example.jwtspringboot.services.MailService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.scheduling.support.ScheduledMethodRunnable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.ScheduledFuture;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class Scheduling {
-
-    @Autowired
-    private TaskScheduler taskScheduler;
+    private final MailService mailService;
+    private final TaskScheduler taskScheduler;
     private ScheduledFuture<?> scheduledFuture;
-    private int count = 0;
 
-    @Scheduled(fixedRate = 2000)
+    //    @Scheduled(fixedRate = 2000)
     public void schedulingWithFixedRate() {
-        log.info("Task running");
-        count++;
-        if (conditionToStopTask(count)) {
-            if (scheduledFuture != null) {
-                scheduledFuture.cancel(true);
-                log.info("Task stopped");
-            }
-        }
+        mailService.sendMail("thinhtran383.au@gmail.com", MailStructure.builder()
+                .message("Hello from spring: " + LocalDateTime.now())
+                .subject("Send report")
+                .build());
+
+        log.info("Mail has sent");
+
+
     }
 
     private boolean conditionToStopTask(int condition) {
