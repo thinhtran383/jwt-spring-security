@@ -40,6 +40,7 @@ public class WebSecurityConfig {
             request.requestMatchers("/api/v1/auth/login").permitAll();
 //            request.requestMatchers();
             request.requestMatchers("/api/v1/home/**").permitAll();
+            request.requestMatchers("/mail/**").permitAll();
 
 //            request.requestMatchers("/api/v1/home").hasAnyAuthority("ROLE_ADMIN")
 //                    .anyRequest().authenticated();

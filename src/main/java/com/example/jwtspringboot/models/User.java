@@ -27,6 +27,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "userId", nullable = false)
+
     private Integer id;
 
     @Column(name = "username", length = 100)
@@ -41,6 +42,7 @@ public class User implements UserDetails {
 
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -51,26 +53,31 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getUserRoles().stream().map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getRole().getRoleName())).collect(Collectors.toList());
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
