@@ -17,11 +17,11 @@ public class SampleData {
     @Bean
     public CommandLineRunner runner(){
         return args -> {
-//            userService.addRole("ADMIN");
-//            userService.addRole("STAFF");
+            userService.addRole("ADMIN");
+            userService.addRole("STAFF");
 
-//            userService.addUser("thinhtran383","123","ADMIN");
-//            userService.addUser("vanhlu383","123","STAFF");
+            userService.addUser("thinhtran383","123","ADMIN");
+            userService.addUser("vanhlu383","123","STAFF");
         };
     }
 }
