@@ -42,7 +42,6 @@ public class User implements UserDetails {
 
 
     @Override
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
